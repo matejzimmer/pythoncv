@@ -158,3 +158,45 @@ funkční kód, tím lepší).
 3. Vytvořte funkci, která vygeneruje náhodná hesla pro počet osob zadaný v parametru tak, aby heslo začínalo
    3 velkými písmeny, pokračovalo 3 malými písmeny, jedním speciálním znakem (-/+*) a končilo 3 náhodnými číslicemi.
 '''
+from datetime import datetime
+
+
+def prevest_ceske_datum_na_databazovy_format(ceske_datum):
+    ceske_datum = datetime.strptime(ceske_datum, "%d. %m. %Y")
+    databazovy_datum = ceske_datum.strftime("%Y-%m-%d")
+    return databazovy_datum
+
+ceske_datum = "12. 10. 2020"
+databazovy_datum = prevest_ceske_datum_na_databazovy_format(ceske_datum)
+print("Databazova podoba data:",databazovy_datum)
+
+
+def generovat_identifikatory(souslovi):
+    identifikator_promenne = souslovi.replace(" ", "_")
+    slova = souslovi.split(" ")
+    identifikator_js = slova[0] + "".join(word.capitalize() for word in slova[1:])
+
+    return identifikator_promenne, identifikator_js
+
+souslovi = "To je promenná v Pythonu"
+identifikator_promenne, identifikator_js = generovat_identifikatory(souslovi)
+print("Misto mezer podtrzitka:", identifikator_promenne)
+print("Velka pismena:", identifikator_js)
+
+import random
+import string
+
+def generate_random_passwords(pocet_osob):
+    passwords = []
+    for _ in range(pocet_osob):
+        upper_chars = ''.join(random.choice(string.ascii_uppercase) for _ in range(3))
+        lower_chars = ''.join(random.choice(string.ascii_lowercase) for _ in range(3))
+        special_char = random.choice("-/+*")
+        digits = ''.join(random.choice(string.digits) for _ in range(3))
+        password = upper_chars + lower_chars + special_char + digits
+        passwords.append(password)
+    return passwords
+pocet_osob = 5
+passwords = generate_random_passwords(pocet_osob)
+for i, password in enumerate(passwords, 1):
+    print(f"Heslo {i}: {password}")
